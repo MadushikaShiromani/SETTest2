@@ -1,0 +1,51 @@
+﻿@inject NavigationManager NavigationManager
+
+<PageTitle>
+    @PageTitle | @Author
+</PageTitle>
+
+@{
+    var description = PageDescription?.Length >= 155 ? $"{PageDescription.Substring(startIndex: 0, length: 152)}..." : PageDescription;
+}
+<HeadContent>
+    <meta property="description" content="@description">
+
+    <meta property="og:title" content="@PageTitle | @Author">
+    <meta property="og:description" content="@description">
+    <meta property="og:image" content="@ThumbnailUrl">
+    <meta property="og:url" content="@Link">
+    <meta property="og:site_name" content="@Author">
+
+    <meta property="twitter:title" content="@PageTitle | @Author">
+    <meta property="twitter:description" content="@description">
+    <meta property="twitter:image" content="@ThumbnailUrl">
+    <meta property="twitter:url" content="@Link">
+    <meta property="twitter:site_name" content="@Author">
+
+    <link rel="canonical" href="@Link" hreflang="en">
+    <meta http-equiv="content-language" content="en">
+</HeadContent>
+
+@code {
+    [Parameter]
+    public string? PageTitle { get; set; }
+
+    [Parameter]
+    public string? PageDescription { get; set; }
+
+    [Parameter]
+    public string? ThumbnailUrl { get; set; }
+
+    [Parameter]
+    public string? Link { get; set; }
+
+    [Parameter]
+    public string? Author { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        ThumbnailUrl ??= "https://lipsum.app/id/24/1600x900";
+        Link ??= NavigationManager.Uri;
+        Author ??= "Brand";
+    }
+}
